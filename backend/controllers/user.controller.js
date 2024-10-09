@@ -10,7 +10,8 @@ export const formData = async (req,res) => {
         designation,
         company,
         industry,
-        city } = req.body    
+        city,
+        masterId} = req.body    
     
     try {
 
@@ -22,7 +23,8 @@ export const formData = async (req,res) => {
             designation,
             company,
             industry,
-            city
+            city,
+            masterId
         })
         
         await user.save()
@@ -37,4 +39,25 @@ export const formData = async (req,res) => {
         console.log("Error in formData controller", error.message);
 		res.status(500).json({ error: "Internal Server Error" });
    }
+}
+
+
+export const userDetails = async (req, res) => {
+    
+    const { userId } = req.query;
+
+    try {
+        const desiredUser = await User.findById(userId);
+        res.json({
+            success: true,
+            desiredUser
+        });        
+    } catch (error) {
+        console.log("Error in userDetails Controller ", error.message)
+        res.json({
+            message: error.message
+        })
+        
+    }
+    
 }
